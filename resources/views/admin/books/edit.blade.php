@@ -101,14 +101,14 @@
                 <div class="form-group">
                     <div class="custom-file">
                         <input type="file" class="custom-file-input" id="customFile" name="pdf_name">
-                        <label class="custom-file-label" for="customFile">Choose image</label>
+                        <label class="custom-file-label" for="customFile">Choose pdf</label>
                     </div>
                 </div>
 
 
               <div class="form-group">
                 <label for="inputStatus">Category</label>
-                <select name="cat_id" id="inputStatus" class="form-control custom-select">
+                <select name="category_id" id="inputStatus" class="form-control custom-select">
                   <option selected disabled>Select one</option>
                     @foreach($categories as $cat)
                   <option value="{{$cat->id}}" {{$book->category_id == $cat->id ? 'selected' : ''}}>
@@ -120,8 +120,8 @@
 
 
                 <div class="form-group">
-                    <label for="inputStatus">Category</label>
-                    <select name="auth_id" id="inputStatus" class="form-control custom-select">
+                    <label for="inputStatus">Author</label>
+                    <select name="author_id" id="inputStatus" class="form-control custom-select">
                         <option selected disabled>Select one</option>
                         @foreach($authors as $auth)
                             <option value="{{$auth->id}}" {{$book->author_id == $auth->id ? 'selected' : ''}}>

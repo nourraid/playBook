@@ -48,9 +48,9 @@ class AdminController extends Controller
             'email' => 'required|email'];
 
         $masseges = [
-            'name.required' => 'title must be entered',
-            'name.min' => 'title must less than 15',
-            'name.max' => 'title must more than 5',
+            'name.required' => 'name must be entered',
+            'name.min' => 'name must less than 15',
+            'name.max' => 'name must more than 5',
             'email.required' => 'email must be entered',
             'password.confirmed' => 'password must be matched',
         ];
@@ -105,9 +105,9 @@ class AdminController extends Controller
             'email' => 'required|email'];
 
         $masseges = [
-            'name.required' => 'title must be entered',
-            'name.min' => 'title must less than 15',
-            'name.max' => 'title must more than 5',
+            'name.required' => 'name must be entered',
+            'name.min' => 'name must less than 15',
+            'name.max' => 'name must more than 5',
             'email.required' => 'email must be entered',
         ];
 

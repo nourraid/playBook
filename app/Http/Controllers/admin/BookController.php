@@ -57,8 +57,8 @@ class BookController extends Controller
 
         $masseges = [
             'title.required' => 'title must be entered',
-            'title.min' => 'title must less than 30',
-            'title.max' => 'title must more than 5',
+            'title.min' => 'title must more than 4 character',
+            'title.max' => 'title must less than 15 character',
             'description.required' => 'description must be entered',
             'publisher.required' => 'publisher must be entered',
             'edition.required' => 'edition must be entered',
@@ -72,6 +72,12 @@ class BookController extends Controller
             'author_id.required' => 'author must be entered',
             'imageName.required' => 'image must be entered',
         ];
+
+        $validator = Validator::make($request->all(), $rules, $masseges);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator->errors())->withInput();
+        }
+
 
         $validator = Validator::make($request->all(), $rules, $masseges);
         if ($validator->fails()) {
@@ -148,18 +154,17 @@ class BookController extends Controller
             'publisher' => 'required',
             'edition' => 'required',
             'language' => 'required',
+            'bookPDF' => 'mimes:pdf',
             'page_number' => 'required',
             'available' => 'required',
             'price' => 'required',
-            'imageName' => 'required',
-            'bookPDF' => 'required|mimes:pdf',
             'category_id' => 'required',
             'author_id' => 'required'];
 
         $masseges = [
             'title.required' => 'title must be entered',
-            'title.min' => 'title must less than 30',
-            'title.max' => 'title must more than 5',
+            'title.min' => 'title must more than 4 character',
+            'title.max' => 'title must less than 15 character',
             'description.required' => 'description must be entered',
             'publisher.required' => 'publisher must be entered',
             'edition.required' => 'edition must be entered',
@@ -167,8 +172,7 @@ class BookController extends Controller
             'page_number.required' => 'page number must be entered',
             'available.required' => 'available must be entered',
             'price.required' => 'price must be entered',
-            'bookPDF.required' => 'PDF must be selected',
-            'bookPDF.mimes' => 'book must be pdf',
+//            'bookPDF.mimes' => 'book must be pdf',
             'category_id.required' => 'category must be entered',
             'author_id.required' => 'author must be entered',
             'imageName.required' => 'image must be entered',
@@ -187,11 +191,15 @@ class BookController extends Controller
         $book->page_number = $request->page_number;
         $book->available = $request->available;
         $book->price = $request->price;
-        $book->category_id = $request->cat_id;
-        $book->author_id = $request->auth_id;
+        $book->category_id = $request->category_id;
+        $book->author_id = $request->author_id;
 
 
         if ($request->file('image_name') != null) {
+            $ext = $request->file('image_name')->extension();
+            if ($ext != 'jpg' || $ext != 'jpeg' || $ext != 'jfif' || $ext != 'pjpeg' || $ext != 'pjp' || $ext != 'png' || $ext != 'webp') {
+                return redirect()->back()->with('error', 'book cover must be image !?');
+            }
             $book_image = $request->file('image_name');
             $file_name = $book->title . time() . '.' . $book_image->extension();
             $book_image->move('book_image', $file_name);
@@ -199,6 +207,9 @@ class BookController extends Controller
         }
 
         if ($request->file('pdf_name') != null) {
+            if ($request->file('pdf_name')->extension() != 'pdf') {
+                return redirect()->back()->with('error', 'book must be pdf !?');
+            }
             $book_pdf = $request->file('pdf_name');
             $file_name2 = $book->title . time() . '.' . $book_pdf->extension();
             $book_pdf->move('book_pdf', $file_name2);

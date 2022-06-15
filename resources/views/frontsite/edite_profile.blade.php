@@ -168,13 +168,16 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <div class="container bootstrap snippets bootdeys">
         <div class="row">
             <div class="col-xs-12 col-sm-9">
-                <form class="form-horizontal" action=" " method="post" enctype="multipart/form-data">
+                @include('admin.layout.masseges')
+                <form class="form-horizontal" action="{{route('user.update' , $user)}}" method="post" enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
                     <div class="panel panel-default">
                         <div class="panel-body text-center">
-                            <img src="{{asset('user_image/'.$user->imgName)}}" class="img-circle profile-avatar" alt="User avatar">
+                            <img style="height: 0px" src="{{asset('user_image/'.$user->userImage)}}" class="img-circle profile-avatar" alt="User avatar">
                         </div>
                         <div class="panel-body text-center">
-                            <input type="file" name="image" style=" margin: auto;">
+                            <input type="file" name="userImage" style=" margin: auto;">
                         </div>
                     </div>
 
@@ -189,7 +192,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">user name</label>
                                 <div class="col-sm-10">
-                                    <input type="text" name="full_name" class="form-control"
+                                    <input type="text" name="name" class="form-control"
                                            value="{{$user->name}}">
                                 </div>
                             </div>

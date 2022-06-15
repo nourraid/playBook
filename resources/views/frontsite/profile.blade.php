@@ -821,7 +821,7 @@
                         <div class="col-lg-3 order-lg-2">
                             <div class="card-profile-image">
                                 <a href="">
-                                    <img src="{{asset('user_image/'.$user->imgName)}}"
+                                    <img style="height: 0px" src="{{asset('user_image/'.$user->userImage)}}"
                                          class="rounded-circle">
                                 </a>
                             </div>

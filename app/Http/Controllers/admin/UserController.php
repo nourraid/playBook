@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -33,7 +34,7 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -44,7 +45,7 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -55,30 +56,72 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit(User $user)
     {
-        return view('frontsite.edite_profile',compact('user'));
+        return view('frontsite.edite_profile', compact('user'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, User $user)
     {
-        //
+        $rules = ['name' => 'required|max:15|min:3',
+            'email' => 'required|email',
+            'phoneNumber' => 'required',
+            'address' => 'required',
+        ];
+
+        $masseges = [
+            'name.required' => 'name must be entered',
+            'name.min' => 'name must more than 3 character',
+            'name.max' => 'name must less than 15 character',
+            'address.required' => 'address must be entered',
+            'phoneNumber.required' => 'phone number must be entered',
+            'email.required' => 'email must be entered',
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $masseges);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator->errors())->withInput();
+        }
+
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->phoneNumber = $request->phoneNumber;
+        $user->address = $request->address;
+
+        if ($request->file('userImage') != null) {
+            $ext = $request->file('userImage')->extension();
+//            dd($ext);
+            // || $ext != 'jpeg' || $ext != 'jfif' || $ext != 'pjpeg' || $ext != 'pjp' || $ext != 'png' || $ext != 'webp'
+            if ($ext != 'jpg') {
+                return redirect()->back()->with('error', 'your image must be image type !?');
+            }
+            $user_image = $request->file('userImage');
+            $file_name = $user->phoneNumber. time() . '.' . $user_image->extension();
+            $user_image->move('user_image', $file_name);
+            $user->userImage = $file_name;
+        }
+
+        $user->save();
+
+        return redirect()->route('profile' , $user)->with('success', 'your information Updated Successfully');;
+
+
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy(User $user)
