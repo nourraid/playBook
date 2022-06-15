@@ -843,12 +843,12 @@
                                 <i class="ni education_hat mr-2"></i>{{$user->email}}
                             </div>
                             <div style="margin:10px">
-                                <a href="{{route('user.edit' , $user->id)}}">
+                                <a href="{{route('user.edit' , $user)}}">
                                     <button class="btn btn-success"><i class="fa fa-edit"></i> edite profile</button>
                                 </a>
                             </div>
                             <div style="margin:10px">
-                                <a href="{{route('user.edit' , $user->id)}}">
+                                <a href="{{route('user.edit' , $user)}}">
                                     <button class="btn btn-success"><i class="fa fa-edit"></i> edite password</button>
                                 </a>
                             </div>
