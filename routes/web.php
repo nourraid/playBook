@@ -42,7 +42,7 @@ Route::post('/authenticate', [AdminController::class, 'authenticate'])->name('au
 Route::post('/user_authenticate', [frontController::class, 'user_authenticate'])->name('user_authenticate');
 
 
-Route::get('/', [frontController::class, 'showhome'])->middleware('auth:web');
+Route::get('/', [frontController::class, 'showhome'])->middleware(['auth:web','verified']);
 Route::prefix('user')->middleware('auth:web')->group(function () {
     Route::get('/', [frontController::class, 'showhome'])->name('home');
     Route::get('/books', [frontController::class, 'showbooks'])->name('books');
@@ -53,5 +53,7 @@ Route::prefix('user')->middleware('auth:web')->group(function () {
     Route::get('/mail', [frontController::class, 'mail'])->name('mail');
     Route::post('/search', [frontController::class, 'search'])->name('search');
     Route::get('/profile', [frontController::class, 'profile'])->name('profile');
+    Route::get('/user/{id}/reset', [frontController::class, 'user_reset'])->name('user.reset');
+    Route::put('/user/{id}/reset/do_reset', [frontController::class, 'user_do_reset'])->name('user.do_reset');
 
 });

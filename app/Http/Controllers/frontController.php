@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Admin;
 use App\Models\Author;
 use App\Models\Book;
 use App\Models\Category;
@@ -9,6 +10,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class frontController extends Controller
 {
@@ -92,5 +95,41 @@ class frontController extends Controller
        $user =  User::find($id);
        $favorites = $user->fav;
     return view('frontsite.profile',compact('user' , 'favorites'));
+    }
+
+
+    public function user_reset($id)
+    {
+        return view('frontsite.edite_password', compact('id'));
+    }
+
+    public function user_do_reset(Request $request, $id)
+    {
+        $user = User::find($id);
+
+        $rules = [
+            'password' => 'required|confirmed',
+            'old_password' => 'required',
+        ];
+
+        $masseges = [
+            'old_password.required' => 'password must be entered',
+            'password.required' => 'password must be entered',
+            'password.confirmed' => 'password must be matched',
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $masseges);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator->errors())->withInput();
+        }
+
+        if (Hash::check($request->old_password, $user->password)) {
+            $user->password = Hash::make($request->password);
+            $user->save();
+            return redirect()->route('profile' , $user)->with('success', 'Reset Password Admin Successfully');;
+        } else {
+            return redirect()->back()->withErrors('incorrect old password');
+        }
+
     }
 }

@@ -1,53 +1,5 @@
 @extends('frontsite.layout.master')
 
-{{--<?php--}}
-{{--include "config/constants.php";--}}
-{{--if (isset($_GET['id'])) {--}}
-{{--    $id = $_GET['id'];--}}
-{{--    $sql = "select * from users where id = '$id'";--}}
-{{--    $result = mysqli_query($con, $sql);--}}
-{{--    if ($result && $result->num_rows > 0) {--}}
-{{--        $user = $result->fetch_assoc();--}}
-{{--        $id = $user['id'];--}}
-{{--        $fullName = $user['userName'];--}}
-{{--        $Address = $user['Address'];--}}
-{{--        $phoneNumber = $user['phoneNumber'];--}}
-{{--        $email = $user['email'];--}}
-{{--        $userImage = $user['userImage'];--}}
-{{--    }--}}
-{{--}--}}
-
-{{--?>--}}
-
-{{--<?php--}}
-{{--if (isset($_POST['edite'])) {--}}
-{{--    $new_userName = $_POST['full_name'];--}}
-{{--    $new_Address = $_POST['address'];--}}
-{{--    $new_phoneNumber = $_POST['phoneNumber'];--}}
-{{--    $new_email = $_POST['email'];--}}
-
-{{--    if (isset($_FILES['image']['name']) && $_FILES['image']['name'] != "") {--}}
-{{--        $name = $_FILES['image']['name'];--}}
-{{--        $temp = $_FILES['image']['tmp_name'];--}}
-{{--        $ext = explode(".", $name);--}}
-{{--        $ext = end($ext);--}}
-{{--        $new_image ="images/users/" . $new_userName . "." . $ext;--}}
-{{--        move_uploaded_file($temp, $new_image);--}}
-{{--    } else {--}}
-{{--        $new_image = $userImage;--}}
-{{--    }--}}
-
-{{--    $sql = "update users set userName = '$new_userName' , Address = '$new_Address' , phoneNumber = '$new_phoneNumber' , email = '$new_email' , userImage = '$new_image'  where id = '$id'";--}}
-{{--    $result = mysqli_query($con, $sql);--}}
-{{--    if ($result) {--}}
-{{--        $_SESSION['user'] = "<div class='success'>user updated </div>";--}}
-{{--        $_SESSION['login'] = $new_userName;--}}
-{{--        header("location:profile.php");--}}
-{{--    } else {--}}
-{{--        $_SESSION['user'] = "<div class='error'>user not updated</div>";--}}
-{{--    }--}}
-{{--}--}}
-{{--?>--}}
 <head>
     <title>PlayBook</title>
     <!-- custom-theme -->
@@ -233,4 +185,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             </div>
         </div>
     </div>
+@endsection
+
+@section('title')
+    edit information Page
 @endsection

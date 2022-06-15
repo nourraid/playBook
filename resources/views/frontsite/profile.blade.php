@@ -848,7 +848,7 @@
                                 </a>
                             </div>
                             <div style="margin:10px">
-                                <a href="{{route('user.edit' , $user)}}">
+                                <a href="{{route('user.reset' , $user->id)}}">
                                     <button class="btn btn-success"><i class="fa fa-edit"></i> edite password</button>
                                 </a>
                             </div>

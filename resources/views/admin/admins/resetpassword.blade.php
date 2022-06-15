@@ -4,7 +4,7 @@
     <!-- Main content -->
     @include('admin.layout.masseges')
     <section class="content">
-        <form method="post" action="{{route('admin.do_reset' , $id)}}" enctype="multipart/form-data">
+        <form method="post" action="{{route('admin.do_reset' , $user)}}" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="row">
