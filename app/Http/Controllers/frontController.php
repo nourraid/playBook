@@ -6,6 +6,7 @@ use App\Models\Admin;
 use App\Models\Author;
 use App\Models\Book;
 use App\Models\Category;
+use App\Models\Favorite;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -77,6 +78,7 @@ class frontController extends Controller
         $login_data = ['email' => $request->email, 'password' => $request->password];
         if (Auth::guard('web')->attempt($login_data)) {
             return redirect()->route('home');
+//            return redirect()->route('profile' , Auth::user());
         }
         return redirect()->back()->with('error', 'invalid username or password');
     }
@@ -97,6 +99,28 @@ class frontController extends Controller
     return view('frontsite.profile',compact('user' , 'favorites'));
     }
 
+
+    public function add_fav(Request $request)
+    {
+        $book_id = $request->book_id;
+        $user_id = $request->user_id;
+        $favorite = DB::table('favorites')->where('book_id', $book_id)->Where('user_id', $user_id)->get();
+        if (count($favorite) > 0) {
+            return redirect()->route('bookinfo', $book_id)->with('error', 'book already favorite');
+        }
+        $fav = new Favorite();
+        $fav->book_id = $book_id;
+        $fav->user_id = $user_id;
+        $fav->save();
+        return redirect()->route('bookinfo', $book_id)->with('success', 'Added To Favorite Successfully');
+    }
+
+
+    public function delete_fav(Request $request)
+    {
+        Favorite::find($request->fav_id)->delete();
+        return redirect()->route('profile')->with('success' , 'book removed from favorite successfully');
+    }
 
     public function user_reset($id)
     {
@@ -130,6 +154,58 @@ class frontController extends Controller
         } else {
             return redirect()->back()->withErrors('incorrect old password');
         }
+
+    }
+
+    public function user_change($id)
+    {
+        $user = User::find($id);
+        return view('frontsite.edite_profile', compact('user'));
+    }
+    public function user_do_change(Request $request , $id)
+    {
+        $user = User::find($id);
+        $rules = ['name' => 'required|max:15|min:3',
+            'email' => 'required|email',
+            'phoneNumber' => 'required',
+            'address' => 'required',
+        ];
+
+        $masseges = [
+            'name.required' => 'name must be entered',
+            'name.min' => 'name must more than 3 character',
+            'name.max' => 'name must less than 15 character',
+            'address.required' => 'address must be entered',
+            'phoneNumber.required' => 'phone number must be entered',
+            'email.required' => 'email must be entered',
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $masseges);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator->errors())->withInput();
+        }
+
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->phoneNumber = $request->phoneNumber;
+        $user->address = $request->address;
+
+        if ($request->file('userImage') != null) {
+            $ext = $request->file('userImage')->extension();
+//            dd($ext);
+            // || $ext != 'jpeg' || $ext != 'jfif' || $ext != 'pjpeg' || $ext != 'pjp' || $ext != 'png' || $ext != 'webp'
+            if ($ext != 'jpg') {
+                return redirect()->back()->with('error', 'your image must be image type !?');
+            }
+            $user_image = $request->file('userImage');
+            $file_name = $user->phoneNumber . time() . '.' . $user_image->extension();
+            $user_image->move('user_image', $file_name);
+            $user->userImage = $file_name;
+        }
+
+        $user->save();
+
+        return redirect()->route('profile', $user)->with('success', 'your information Updated Successfully');
 
     }
 }

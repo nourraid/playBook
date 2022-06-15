@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin;
 use App\Models\Category;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
@@ -17,7 +19,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::orderByDesc('created_at')->paginate(5);
+        $users = User::orderByDesc('id')->paginate(5);
         return view('admin.users.index', compact('users'));
     }
 
@@ -37,9 +39,44 @@ class UserController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function user_register(Request $request)
     {
-        //
+        $rules = ['name' => 'required|max:15|min:4',
+            'password' => 'required|confirmed',
+            'address' => 'required',
+            'userImage' => 'required',
+            'phoneNumber' => 'required',
+            'email' => 'required|email'];
+
+        $masseges = [
+            'name.required' => 'name must be entered',
+            'name.min' => 'name must less than 15',
+            'name.max' => 'name must more than 5',
+            'email.required' => 'email must be entered',
+            'address.required' => 'address must be entered',
+            'phoneNumber.required' => 'phone number must be entered',
+            'password.confirmed' => 'password must be matched',
+            'userImage.required' => 'image must be entered',
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $masseges);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator->errors())->withInput();
+        }
+
+        $user = new User();
+        $user->email = $request->email;
+        $user->name = $request->name;
+        $user->address = $request->address;
+        $user->phoneNumber = $request->phoneNumber;
+        $user->password = Hash::make($request->password);
+
+        $user_image = $request->file('userImage');
+        $file_name = $user->phoneNumber . time() . '.' . $user_image->extension();
+        $user_image->move('user_image', $file_name);
+        $user->userImage = $file_name;
+        $user->save();
+        return redirect()->route('profile', $user);
     }
 
     /**
@@ -106,14 +143,14 @@ class UserController extends Controller
                 return redirect()->back()->with('error', 'your image must be image type !?');
             }
             $user_image = $request->file('userImage');
-            $file_name = $user->phoneNumber. time() . '.' . $user_image->extension();
+            $file_name = $user->phoneNumber . time() . '.' . $user_image->extension();
             $user_image->move('user_image', $file_name);
             $user->userImage = $file_name;
         }
 
         $user->save();
 
-        return redirect()->route('profile' , $user)->with('success', 'your information Updated Successfully');;
+        return redirect()->route('profile', $user)->with('success', 'your information Updated Successfully');
 
 
     }

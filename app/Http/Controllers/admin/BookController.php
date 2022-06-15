@@ -42,7 +42,7 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-        $rules = ['title' => 'required|max:15|min:4',
+        $rules = ['title' => 'required|max:20|min:4',
             'description' => 'required',
             'publisher' => 'required',
             'edition' => 'required',
@@ -58,7 +58,7 @@ class BookController extends Controller
         $masseges = [
             'title.required' => 'title must be entered',
             'title.min' => 'title must more than 4 character',
-            'title.max' => 'title must less than 15 character',
+            'title.max' => 'title must less than 20 character',
             'description.required' => 'description must be entered',
             'publisher.required' => 'publisher must be entered',
             'edition.required' => 'edition must be entered',

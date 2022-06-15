@@ -39,13 +39,13 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $rules = ['title' => 'required|max:15|min:4',
+        $rules = ['title' => 'required|max:25|min:4',
             'imageName' => 'required'];
 
         $masseges = [
             'title.required' => 'title must be entered',
-            'title.min' => 'title must less than 30',
-            'title.max' => 'title must more than 5',
+            'title.min' => 'title must be more than 4',
+            'title.max' => 'title must less than 25',
             'imageName.required' => 'image must be entered',
         ];
 
@@ -103,13 +103,13 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        $rules = ['title' => 'required|max:15|min:4',
+        $rules = ['title' => 'required|max:25|min:4',
             'imageName' => 'required'];
 
         $masseges = [
             'title.required' => 'title must be entered',
-            'title.min' => 'title must less than 30',
-            'title.max' => 'title must more than 5',
+            'title.min' => 'title must be more than 4',
+            'title.max' => 'title must less than 25',
             'imageName.required' => 'image must be entered',
         ];
 

@@ -2,23 +2,6 @@
 @section('content')
     <!-- Main content -->
     @include('admin.layout.masseges')
-    <?php
-    //include "config/constants.php";
-    //if (isset($_GET['id'])) {
-    //    $id = $_GET['id'];
-    //    $sql = "select password from users where id = '$id'";
-    //    $result = mysqli_query($con, $sql);
-    //    if ($result && $result->num_rows > 0) {
-    //        $user = $result->fetch_assoc();
-    //        $old_password = $user['password'];
-    //
-    //    } else {
-    //        header("location:profile.php");
-    //    }
-    //} else {
-    //    header("location:profile.php");
-    //}
-    //?>
     <head>
         <!-- custom-theme -->
         <meta name="viewport" content="width=device-width, initial-scale=1">

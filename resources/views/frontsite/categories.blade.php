@@ -7,9 +7,9 @@
         <div class="agileits_banner_bottom_grids">
 
             @foreach($categories as $category)
-                <div class="col-md-3 col-sm-6 team-grids">
+                <div class="col-md-3 col-sm-6 team-grids"  style="margin-bottom: 10px">
                     <a href='{{route('catbooks' , $category->id)}}'>
-                        <img src="{{asset('category_image/'.$category->imageName)}}" height='450'/>
+                        <img style="border-radius: 7px ;" src="{{asset('category_image/'.$category->imageName)}}" height='450'/>
                         <div class="img-caption w3-agileits">
                             <div class="img-agileinfo-text">
                                 <h4>{{$category->title}}</h4>

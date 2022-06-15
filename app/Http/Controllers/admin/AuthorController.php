@@ -4,6 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Author;
+use App\Models\Book;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -40,20 +41,19 @@ class AuthorController extends Controller
      */
     public function store(Request $request)
     {
-        $rules = ['name' => 'required|max:15|min:4',
+        $rules = ['name' => 'required|max:20|min:4',
             'BD' => 'required',
             'address' => 'required',
             'email' => 'required|email'];
 
         $masseges = [
             'name.required' => 'title must be entered',
-            'name.min' => 'title must less than 30',
-            'name.max' => 'title must more than 5',
+            'name.min' => 'title must more than 4',
+            'name.max' => 'title must less than 20',
             'BD.required' => 'birth date must be entered',
             'address.required' => 'address must be entered',
             'email.required' => 'email must be entered',
         ];
-
         $validator = Validator::make($request->all(), $rules, $masseges);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator->errors())->withInput();
@@ -107,15 +107,15 @@ class AuthorController extends Controller
      */
     public function update(Request $request, Author $author)
     {
-        $rules = ['name' => 'required|max:15|min:4',
+        $rules = ['name' => 'required|max:20|min:4',
             'BD' => 'required',
             'address' => 'required',
             'email' => 'required|email'];
 
         $masseges = [
             'name.required' => 'title must be entered',
-            'name.min' => 'title must less than 30',
-            'name.max' => 'title must more than 5',
+            'name.min' => 'title must more than 4',
+            'name.max' => 'title must less than 20',
             'BD.required' => 'birth date must be entered',
             'address.required' => 'address must be entered',
             'email.required' => 'email must be entered',
@@ -144,6 +144,12 @@ class AuthorController extends Controller
      */
     public function destroy(Author $author)
     {
+        $books = $author->books;
+        foreach ($books as $book) {
+            $b = Book::find($book->id);
+            $b->fav()->delete();
+        }
+
         $author->books()->delete();
         $author->delete();
         return redirect()->route('author.index')->with('success', 'Author Deleted Successfully');

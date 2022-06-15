@@ -121,7 +121,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         <div class="row">
             <div class="col-xs-12 col-sm-9">
                 @include('admin.layout.masseges')
-                <form class="form-horizontal" action="{{route('user.update' , $user)}}" method="post" enctype="multipart/form-data">
+                <form class="form-horizontal" action="{{route('user.do_change' , $user)}}" method="post" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="panel panel-default">

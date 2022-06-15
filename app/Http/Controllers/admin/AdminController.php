@@ -169,7 +169,6 @@ class AdminController extends Controller
         }elseif (str_contains($url , 'user') && Auth::guest()){
             return view('frontsite.before_login');
         }
-
     }
 
     public function logout()

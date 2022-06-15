@@ -1,63 +1,3 @@
-{{--<?php--}}
-{{--//if (isset($_POST['signup'])) {--}}
-{{--//    $name = $_POST['name'];--}}
-{{--//    $Address = $_POST['Address'];--}}
-{{--//    $passwordd = md5($_POST['passwordd']);--}}
-{{--//    $phoneNumber = $_POST['phoneNumber'];--}}
-{{--//    $email = $_POST['email'];--}}
-{{--//--}}
-{{--//    if (!mysqli_connect_error()) {--}}
-{{--//        echo "connected";--}}
-{{--//        $sql = "insert into users set userName = '$name' , Address = '$Address' , password = '$passwordd' , phoneNumber = '$phoneNumber' ,  email='$email' ";--}}
-{{--//        $result = mysqli_query($con, $sql);--}}
-{{--//        if ($result) {--}}
-{{--//            $_SESSION['users'] = "<div class='success'>register success</div>";--}}
-{{--//            header("location:before_login.php");--}}
-{{--//        }--}}
-{{--//    } else {--}}
-{{--//        $_SESSION['login_faild'] = "<div class='error'>register fail</div>";--}}
-{{--//    }--}}
-{{--//}--}}
-
-{{--if (isset($_POST['signup'])) {--}}
-{{--    $userName = $_POST['name'];--}}
-{{--    $Address = $_POST['Address'];--}}
-{{--    $password = md5($_POST['password']);--}}
-{{--    $phoneNumber = $_POST['phoneNumber'];--}}
-{{--    $email = $_POST['email'];--}}
-
-{{--    if (isset($_FILES['image']['name']) && $_FILES['image']['name'] != "") {--}}
-{{--        $name = $_FILES['image']['name'];--}}
-{{--        $temp = $_FILES['image']['tmp_name'];--}}
-{{--        $ext = explode(".", $name);--}}
-{{--        $ext = end($ext);--}}
-{{--        $userImage = "images/users/" . $userName . "." . $ext;--}}
-{{--        echo $userImage;--}}
-{{--        move_uploaded_file($temp, $userImage);--}}
-{{--    } else {--}}
-{{--        $userImage = "../images/logo.png";--}}
-{{--    }--}}
-
-{{--        if (!mysqli_connect_error()) {--}}
-{{--            echo "connected";--}}
-{{--            $sql = "insert into users set userName = '$userName' , Address = '$Address' , password = '$password' , phoneNumber = '$phoneNumber' ,  email='$email' , userImage =  '$userImage'";--}}
-{{--            $result = mysqli_query($con, $sql);--}}
-{{--            if ($result) {--}}
-{{--                $_SESSION['users'] = "<div class='success'>register success</div>";--}}
-{{--                header("location:before_login.php");--}}
-{{--            }--}}
-{{--        } else {--}}
-{{--            $_SESSION['login_faild'] = "<div class='error'>register fail</div>";--}}
-{{--            header("location:before_login.php");--}}
-{{--        }--}}
-
-
-{{--}--}}
-
-{{--//include "partial/footer.php";--}}
-
-
-{{--?>--}}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -86,8 +26,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <link href="css/font-awesome.css" rel="stylesheet">
     <!-- //font-awesome-icons -->
     <link href="//fonts.googleapis.com/css?family=Raleway:400,400i,500,500i,600,600i,700,700i,800" rel="stylesheet">
-    <link href='//fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic'
-          rel='stylesheet' type='text/css'>
+    <link
+        href='//fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic'
+        rel='stylesheet' type='text/css'>
 </head>
 
 <body>
@@ -96,12 +37,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <div class="w3_agile_banner_top">
         <div class="agile_phone_mail">
             <ul class="agile_forms">
-                <li><a class="active" href="#" data-toggle="modal" data-target="#myModal2"><i class="fa fa-sign-in" aria-hidden="true"></i>Sign In</a></li>
+                <li><a class="active" href="#" data-toggle="modal" data-target="#myModal2"><i class="fa fa-sign-in"
+                                                                                              aria-hidden="true"></i>Sign
+                        In</a></li>
                 <li><a href="#" data-toggle="modal" data-target="#myModal3"><i class="fa fa-pencil-square-o"
                                                                                aria-hidden="true"></i> Sign Up</a></li>
             </ul>
             <ul>
-                <li><i class="fa fa-phone" aria-hidden="true"></i>+(970) 592 212 481 </li>
+                <li><i class="fa fa-phone" aria-hidden="true"></i>+(970) 592 212 481</li>
                 <li><i class="fa fa-envelope" aria-hidden="true"></i><a href="mailto:education@w3layouts.com">nrayd633@gmail.com</a>
                 </li>
             </ul>
@@ -169,9 +112,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <h3 class="agileinfo_sign">Sign In</h3>
 
                     <div class="login-form">
-                        @include('admin.layout.masseges')
 
                         <form action="{{route('user_authenticate')}}" method="post">
+                            @include('admin.layout.masseges')
+
                             @csrf
                             <br>
                             <br>
@@ -209,16 +153,25 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <div class="signin-form profile">
                     <h3 class="agileinfo_sign">Sign Up</h3>
                     <div class="login-form">
-                        <form action="#" method="post" enctype="multipart/form-data">
-                            <br>
-                            <br>
-                            <input type="text" name="name" placeholder="Username" required="">
-                            <input type="text" name="Address" placeholder="Address" required="">
-                            <input type="password" name="password" placeholder="Password" required="">
-                            <input type="text" name="phoneNumber" placeholder="phone Number" required="">
-                            <input type="email" name="email" placeholder="Email" required="">
-                            <input type="file" name="image" required="">
-                            <input type="submit" value="Sign Up" name="signup">
+                        <form action="{{route('user_register')}}" method="post" enctype="multipart/form-data">
+                            @csrf
+                                <br>
+                                @include('admin.layout.masseges')
+                                <br>
+                                <input type="text" value="{{old('name')}}" name="name" placeholder="Username" required="">
+                                <input type="text" value="{{old('address')}}" name="address" placeholder="Address"
+                                       required="">
+                                <input type="password" value="{{old('password')}}" name="password" placeholder="Password"
+                                       required="">
+
+                                <input type="password" value="{{old('password_confirmation')}}" name="password_confirmation"
+                                       placeholder="confirm Password"
+                                       required="">
+                                <input type="text" value="{{old('phoneNumber')}}" name="phoneNumber"
+                                       placeholder="phone Number" required="">
+                                <input type="email" value="{{old('email')}}" name="email" placeholder="Email" required="">
+                                <input type="file" value="{{old('userImage')}}" name="userImage" required="">
+                                <input type="submit" value="Sign Up" name="signup">
                         </form>
                     </div>
                     <p><a href="#"> By clicking register, I agree to your terms</a></p>
@@ -227,7 +180,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         </div>
     </div>
 </div>
-
 
 
 <!-- //Modal2 -->

@@ -9,11 +9,11 @@
         <div class="agileits_banner_bottom_grids">
 
             @foreach($books as $book)
-                <div class="col-md-3 agileits_banner_bottom_grid">
+                <div class="col-md-3 agileits_banner_bottom_grid" style="margin-bottom: 10px" >
                     <a href='{{route('bookinfo',$book->id)}}'>
                         <div class="hovereffect w3ls_banner_bottom_grid">
                             <img src="{{asset('book_image/'.$book->imageName)}}" class="img-responsive"
-                                 style='width: 100% ;     height: 100%;'/>
+                                 style='border-radius: 7px ;width: 100% ;     height: 100%;'/>
                             <div class="overlay">
                                 <h4>{{$book->title}}</h4>
                                 <p>learn mor</p>

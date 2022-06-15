@@ -12,7 +12,7 @@
                             <div class="col-md-5 col-sm-12 col-xs-12">
                                 <div class="product-entry">
                                     <div class="product-img">
-                                        <img src="{{asset('book_image/'.$book->imageName)}}" style="width: 100%">
+                                        <img src="{{asset('book_image/'.$book->imageName)}}" style="border-radius: 7px ;width: 100%">
                                     </div>
                                 </div>
                             </div>
@@ -51,16 +51,14 @@
                                     @else
                                         <p class="price">Book not free we are sorry try another books :(</p>
                                     @endif
-                                    {{$book_id = $book->id}}
-                                    {{$user_id = \Illuminate\Support\Facades\Auth::id()}}
-                                    <form method="post" action="{{route('favorite.store')}}" enctype="multipart/form-data">
+{{--                                    {{$book_id = $book->id}}--}}
+{{--                                    {{$user_id = \Illuminate\Support\Facades\Auth::id()}}--}}
+                                    <form method="post" action="{{route('add_fav')}}" enctype="multipart/form-data">
                                         @csrf
-                                        @auth()
-                                        <input type="hidden" value="{{$book_id}}" name="book_id">
-                                        <input type="hidden" value="{{$user_id}}"
+                                        <input type="hidden" value="{{$book->id}}" name="book_id">
+                                        <input type="hidden" value="{{\Illuminate\Support\Facades\Auth::id()}}"
                                                name="user_id">
                                         <input type="submit" value="add to favorite">
-                                        @endauth
                                     </form>
                                 </div>
 

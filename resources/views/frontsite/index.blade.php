@@ -166,7 +166,7 @@
                         <a href='{{route('catbooks' , $category->id)}}'>
 
                             <div class="col-md-3 col-sm-6 team-grids">
-                                <img src="{{asset('category_image/'.$category->imageName)}}" style='height: 311px;'/>
+                                <img  src="{{asset('category_image/'.$category->imageName)}}" style='border-radius: 7px ;height: 311px;'/>
                                 <div class="img-caption w3-agileits">
                                     <div class="img-agileinfo-text">
                                         <h4>{{$category->title}}</h4>
@@ -264,7 +264,7 @@
                 <div class="col-md-3 agileits_banner_bottom_grid">
                 <a href='{{route('bookinfo',$book->id)}}'>
                     <div class="hovereffect w3ls_banner_bottom_grid">
-                    <img src="{{asset('book_image/'.$book->imageName)}}" class="img-responsive" style='width: 100% ; height: 100%'/>
+                    <img src="{{asset('book_image/'.$book->imageName)}}" class="img-responsive" style='border-radius: 7px ;width: 100% ; height: 100%'/>
 
                     <div class="overlay">
                         <h4>{{$book->title}}</h4>

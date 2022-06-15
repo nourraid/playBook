@@ -843,7 +843,8 @@
                                 <i class="ni education_hat mr-2"></i>{{$user->email}}
                             </div>
                             <div style="margin:10px">
-                                <a href="{{route('user.edit' , $user)}}">
+
+                                <a href="{{route('user.change' , $user->id)}}">
                                     <button class="btn btn-success"><i class="fa fa-edit"></i> edite profile</button>
                                 </a>
                             </div>
@@ -862,21 +863,22 @@
                             <div class="agileits_banner_bottom_grids">
 
                                 @foreach($favorites as $fav)
-                                    <div class="col-md-3 agileits_banner_bottom_grid">
+                                    <div class="col-md-3 agileits_banner_bottom_grid"  style="margin-bottom: 10px">
                                         <a href='{{route('bookinfo' , $fav->book->id)}}'>
                                             <div class="hovereffect w3ls_banner_bottom_grid">
-                                                <img src="{{asset('book_image/'.$fav->book->imageName)}}"
+                                                <img  src="{{asset('book_image/'.$fav->book->imageName)}}"
                                                      class="img-responsive"
-                                                     style='width: 100% ; height: 100%'/>
+                                                     style=' border-radius: 7px ;width: 100% ; height: 100%'/>
                                                 <div class="overlay">
                                                     <h4>{{$fav->book->title}}</h4>
                                                     <p>learn more</p>
                                                 </div>
                                             </div>
                                         </a>
-                                        <form action='{{route('favorite.destroy' , $fav->id)}}' method='post'>
+                                        <form action='{{route('delete_fav')}}' method='post'>
                                             @csrf
-                                            @method('DELETE')
+                                            <input type="hidden" value="{{$fav->id}}" name="fav_id">
+
                                             <input type="submit" value="remove from favorite">
 {{--                                            <button name="tt">remove from favorite<i class="fa fa-close"--}}
 {{--                                                                                     style='color: red'></i>--}}
