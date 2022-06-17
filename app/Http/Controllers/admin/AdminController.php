@@ -162,6 +162,7 @@ class AdminController extends Controller
 
     public function login(Request $request)
     {
+
         $url = url()->previous();
         if (str_contains($url , 'admin')) {
             return view('admin.admins.login');
