@@ -166,9 +166,9 @@ class AdminController extends Controller
 
         if (str_contains($url , 'admin')) {
             return view('admin.admins.login');
-        }elseif (str_contains($url , 'user') && Auth::guest()){
-            return view('frontsite.before_login');
         }
+            return view('frontsite.before_login');
+
     }
 
     public function logout()
