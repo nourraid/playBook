@@ -163,10 +163,9 @@ class AdminController extends Controller
     public function login(Request $request)
     {
         $url = url()->previous();
-
-        if (str_contains($url , 'admin') || Auth::guard('webadmin')) {
+        if (str_contains($url , 'admin')) {
             return view('admin.admins.login');
-        }elseif (Auth::guard('web')){
+        }elseif (Auth::guard('web') || str_contains($url , 'user')){
             return view('frontsite.before_login');
         }
 
